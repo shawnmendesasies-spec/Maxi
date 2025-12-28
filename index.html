@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Maxi</title>
+
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 25px;
+      text-align: center;
+      width: 320px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .arena {
+      position: relative;
+      width: 260px;
+      height: 180px;
+      margin: auto;
+      background: #f8f8f8;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    button {
+      position: absolute;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #si {
+      background: #90ee90;
+      left: 50%;
+      bottom: 15px;
+      transform: translateX(-50%) scale(1);
+    }
+
+    #nose {
+      background: #ff6961;
+      left: 15px;
+      top: 15px;
+    }
+
+    #gatito {
+      display: none;
+      width: 90px;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+
+    #mensajeFinal {
+      display: none;
+      font-size: 18px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1 id="pregunta">¿Me perdonas?</h1>
+
+  <div class="arena">
+    <button id="nose">No sé</button>
+    <button id="si">Sí</button>
+  </div>
+
+  <img id="gatito" src="gatito.png" alt="Gatito triste">
+
+  <div id="mensajeFinal">
+    no te quiero perder maxi, de verdad, te amo y eres todo para mi
+  </div>
+</div>
+
+<script>
+  const botonNo = document.getElementById("nose");
+  const botonSi = document.getElementById("si");
+  const pregunta = document.getElementById("pregunta");
+  const gatito = document.getElementById("gatito");
+  const mensajeFinal = document.getElementById("mensajeFinal");
+  const arena = document.querySelector(".arena");
+
+  let escala = 1;
+  let etapa = 1;
+
+  function moverNo() {
+    const maxX = arena.clientWidth - botonNo.offsetWidth;
+    const maxY = arena.clientHeight - botonNo.offsetHeight;
+
+    botonNo.style.left = Math.random() * maxX + "px";
+    botonNo.style.top = Math.random() * maxY + "px";
+  }
+
+  botonNo.addEventListener("mouseover", moverNo);
+  botonNo.addEventListener("touchstart", moverNo);
+
+  botonSi.addEventListener("click", () => {
+    escala += 0.2;
+    botonSi.style.transform = `translateX(-50%) scale(${escala})`;
+
+    if (etapa === 1 && escala >= 2) {
+      etapa = 2;
+      escala = 1;
+      botonSi.style.transform = `translateX(-50%) scale(1)`;
+      pregunta.textContent = "¿Me amas?";
+      botonNo.style.display = "none";
+      gatito.style.display = "block";
+    } 
+    else if (etapa === 2 && escala >= 2) {
+      pregunta.style.display = "none";
+      document.querySelector(".arena").style.display = "none";
+      botonSi.style.display = "none";
+      gatito.style.display = "none";
+      mensajeFinal.style.display = "block";
+    }
+  });
+</script>
+
+</body>
+</html>
